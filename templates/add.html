@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body%}
+<form action="" method="post">
+  <dl>
+    <dt>name:
+    <dd><input type="text" name="name" size="30" value="{{ request.form.name }}">
+    <dt>title_zh:
+    <dd><input type="text" name="title_zh" size="30" value="{{ request.form.title_zh }}">
+    <dt>author:
+    <dd><input type="text" name="author" size="30" value="{{ request.form.author }}">
+    <dt>release:
+    <dd><input type="integer" name="release" size="30" value="{{ request.form.release }}">
+    <dt>revise:
+    <dd><input type="integer" name="revise" size="30" value="{{ request.form.revise }}"}}>
+    <dt>tags:
+    <dd><input type="text" name="tags" size="30" value="{{ request.form.tags }}">
+    <dt>abstract:
+    <dd><input type="text" name="abstract" size="30" value="{{ request.form.abstract }}">
+    <dt>content:
+    <dd><input type="text" name="content" size="30" value="{{ request.form.content }}">
+  </dl>
+  <div class="actions"><input type="submit" value="Post"></div>
+</form>
+
+{% endblock %}

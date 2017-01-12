@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+{% set article = article[0] %}
+<div class="article">
+  <h1>{{ article.title_zh }}</h1>
+  <div class="date">
+    最初发表于{{ article.release }}，最近更新{{ article.revise }}</div>
+  </div>
+  <div class="toc">
+    {{ article.toc|safe }}
+  </div>
+  <div class="content">
+    {{ article.content|safe }}
+  </div>
+</div>
+{% endblock %}

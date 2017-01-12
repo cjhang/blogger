@@ -1,0 +1,1 @@
+from .blogger import app

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="blogs">
+  <h1>最近更新</h1>
+  {% for blog in blogs %}
+  <a href="/blogs/{{ blog.name }}"><h2>{{ blog.title_zh }}</h2></a>
+  <p class='abstract'>{{ blog.abstract }}</p>
+  <p>最近更新{{ blog.revise }}</p>
+  {% else %}
+  <h2>No blogs here so far</h2>
+  {% endfor%}
+</div>
+{% endblock %}
