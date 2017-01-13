@@ -1,0 +1,4 @@
+blogger.db
+*.pyc
+blogs
+blogstest
