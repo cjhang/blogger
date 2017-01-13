@@ -26,5 +26,5 @@ create table comments (
   blog_name text not null,
   user_name text not null,
   comment_date text,
-  content text not null
+  comment_detail text not null
 );

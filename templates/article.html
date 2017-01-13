@@ -12,5 +12,25 @@
   <div class="content">
     {{ article.content|safe }}
   </div>
+  <form action="" method="POST" accept-charset="utf-8">
+    <dl>
+      <dt>你的昵称:</dt>
+      <dd><input type="text" name="user_name" size="30" value="{{ request.form.user_name }}" id="user_name"></dd>
+      <dt>留言内容:</dt>
+      <dd><input type="text" name="comment_detail" size="50" value="{{ request.form.comment_detail }}" id="comment_detail"></dd>
+    </dl>
+    <div class="action"><input type="submit" name="submit" value="提交" id="submit"></div>
+  </form>
+
+  <div class="comments">
+    <h3>留言列表</h3>
+    {% for comment in comments %}
+    <h4>{{ comment.user_name }}:</h4><div>发表于{{ comment.comment_date }}</div>
+    <p>{{ comment.comment_detail }}</p>
+    {% else %}
+    <h2>No comments so far</h2>
+    {% endfor %}
+  </div>
 </div>
+
 {% endblock %}

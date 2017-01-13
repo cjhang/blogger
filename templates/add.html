@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body%}
-<form action="" method="post">
+<form action="" method="POST">
   <dl>
     <dt>name:
     <dd><input type="text" name="name" size="30" value="{{ request.form.name }}">
@@ -19,7 +19,7 @@
     <dt>content:
     <dd><input type="text" name="content" size="30" value="{{ request.form.content }}">
   </dl>
-  <div class="actions"><input type="submit" value="Post"></div>
+  <div class="actions"><input type="submit" value="POST"></div>
 </form>
 
 {% endblock %}

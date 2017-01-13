@@ -12,7 +12,7 @@
 import os
 import sqlite3
 import codecs
-from datetime import datetime
+from datetime import date
 import markdown
 from flask import Flask, request, g, redirect, url_for, render_template,\
     flash
@@ -92,14 +92,6 @@ def readMarkdown(filename):
     abstract = meta['abstract'][0]
     return name, title_zh, author, release, revise, tags, abstract, toc, body
 
-# def num2date(num):
-    # if num > 90000000 and num < 19000000:
-        # return 'Invalid Date'
-    # year = num // 1000
-    # month = (num - year*1000) // 100
-    # day = num - year*1000 - month*100
-    # return str(year)+'年'+str(month)+'月'+str(day)+'日'
-
 @app.cli.command('initdb')
 def initdb_command():
     init_db()
@@ -136,11 +128,29 @@ def show_updates():
         where release != "" order by revise desc limit 30''')
     return render_template('update.html', blogs=blogs)
 
-@app.route('/blogs/<blogname>')
+@app.route('/blogs/<blogname>', methods=['GET', 'POST'])
 def show_article(blogname):
-    return render_template('article.html', article=query_db('''
-        select title_zh, release, revise, toc, content from blogs
-        where name = ?''', [blogname]))
+    if request.method == 'GET':
+        article = query_db('''
+            select title_zh, release, revise, toc, content from blogs
+            where name = ?''', [blogname])
+        comments = query_db('''
+            select user_name, comment_date, comment_detail from comments
+            where blog_name = ?''', [blogname])
+        return render_template('article.html', article = article, 
+                comments = comments)
+    elif request.method == 'POST':
+        comment_date = date.today().isoformat()
+        query_db('''
+                insert into comments(blog_name, user_name, comment_date, 
+                comment_detail) values(?, ?, ?, ?)''', 
+                [blogname, request.form['user_name'], comment_date, 
+                 request.form['comment_detail']], method = 'w')
+        flash("Comments was successfully posted")
+        return redirect(url_for('show_article', blogname = blogname))
+    else:
+        print('Unsurpported request!')
+        return 0
 
 @app.route('/add', methods=['GET', 'POST'])
 # Currently, the add post only used for test

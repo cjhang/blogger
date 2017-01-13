@@ -41,6 +41,19 @@ class FlaskTestCase(unittest.TestCase):
         assert b'2010-10-06' in rv.data
         assert b'2012-10-06' in rv.data
         assert b'This is a test blog content.' in rv.data
+        assert b'No comments so far' in rv.data
+        rv = self.app.post('/blogs/test1', data = dict(
+            user_name = 'tester',
+            comment_detail = 'What a good blog!'))
+        rv = self.app.get('/blogs/test1')
+        assert b'What a good blog!' in rv.data
+
+
+    # def test_comment(self):
+        # rv = self.app.post('/add', data = dict(
+            # name = 'test2',
+            # content = 'This is a test blog'))
+        # rv = self.app.get('/')
 
 if __name__ == '__main__':
     unittest.main()
