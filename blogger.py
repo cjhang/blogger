@@ -15,7 +15,7 @@ import codecs
 from datetime import date
 import markdown
 from flask import Flask, request, g, redirect, url_for, render_template,\
-    flash
+    flash, send_file, send_from_directory
 
 # create the application
 app = Flask(__name__)
@@ -58,7 +58,9 @@ def init_db():
     db.commit()
 
 def query_db(query, args=(), method='r'):
-    """Queries the database and returns a list of dictionaries."""
+    '''
+    Queries the database and returns a list of dictionaries.
+    '''
     db = get_db()
     cur = db.execute(query, args)
     if method == 'w':
@@ -151,6 +153,15 @@ def show_article(blogname):
     else:
         print('Unsurpported request!')
         return 0
+
+@app.route('/images/<path:filename>')
+def get_image(filename):
+    # blog_name = request.args.get('name')
+    # pic_name = request.args.get('pic')
+    # file_type = request.args.get('type')
+    # file_name = blog_name+'/'+pic_name+'.'+file_type 
+    # return send_file(os.path.join(BLOGS, filename), mimetype='image/'+'file_type')
+    return send_from_directory(BLOGS, filename)
 
 @app.route('/add', methods=['GET', 'POST'])
 # Currently, the add post only used for test

@@ -48,12 +48,5 @@ class FlaskTestCase(unittest.TestCase):
         rv = self.app.get('/blogs/test1')
         assert b'What a good blog!' in rv.data
 
-
-    # def test_comment(self):
-        # rv = self.app.post('/add', data = dict(
-            # name = 'test2',
-            # content = 'This is a test blog'))
-        # rv = self.app.get('/')
-
 if __name__ == '__main__':
     unittest.main()
