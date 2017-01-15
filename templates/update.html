@@ -1,13 +1,69 @@
 {% extends "layout.html" %}
-{% block body %}
-<div class="blogs">
-  <h1>最近更新</h1>
-  {% for blog in blogs %}
-  <a href="/blogs/{{ blog.name }}"><h2>{{ blog.title_zh }}</h2></a>
-  <p class='abstract'>{{ blog.abstract }}</p>
-  <p>最近更新{{ blog.revise }}</p>
-  {% else %}
-  <h2>No blogs here so far</h2>
-  {% endfor%}
-</div>
-{% endblock %}
+<body class="layout-default">
+
+  {% block navbar %}
+  <section  class="hero is-medium has-text-centered">
+    <div class="hero-head">
+      <div class="container">
+        <div class="nav">
+          <div class="nav-left">
+            <a class="nav-item" href="https://cjhang.github.io">cjhang</a>
+          </div>
+          <span id="nav-toggle" class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <div id="nav-menu" class="nav-right nav-menu">
+            <a class="nav-item is-active" href="/">Update</a>
+            <a class="nav-item" href="#">Blogs</a>
+            <a class="nav-item" href="/about">About</a>
+          </div>
+        </div>  
+      </div>
+    </div>
+    <div class="hero-body">
+      <div class="container">
+        <!--FontPage Picture-->
+        <h2>分享知识的快乐</h2>
+      </div>
+    </div>
+  </section> 
+  {% endblock %}
+
+  {% block body %}
+  <div class="container">
+    {% for blog in blogs %}
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-256x128">
+        <!--<img src="http://bulmaT.io/images/placeholders/200x150.png">-->
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <p>
+          <a href="/blogs/{{ blog.name }}"><h2>{{ blog.title_zh }}</h2></a>
+          <strong>{{ blog.author }}</strong>
+          <br>
+          {{ blog.abstract }}
+          <br>
+          {% if blog.revise %}
+          <small>更新于{{ blog.revise }}</small>
+          {% else %}
+          <small>第一次发表</small>
+          {% endif %}
+          <span class="tag is-success">{{ blog.tags }}</span>
+          </p>
+        </div>
+      </div>
+      <div class="media-right">
+        <!--<button class="delete"></button>-->
+      </div>
+    </article>
+    {% else %}
+    <h2>No blogs here so far</h2>
+    {% endfor%}
+  </div>
+  {% endblock %}
+</body>

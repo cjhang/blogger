@@ -27,7 +27,6 @@ class FlaskTestCase(unittest.TestCase):
             title_zh = '测试1',
             author = 'test_author',
             release = '2010-10-06',
-            revise = '2012-10-06',
             tags = 'test',
             abstract = 'Test1 abstract',
             content = 'This is a test blog content.'))
@@ -35,11 +34,9 @@ class FlaskTestCase(unittest.TestCase):
         assert b'No blogs here so far' not in rv.data
         assert b'测试1' in rv.data
         assert b'Test1 abstract' in rv.data
-        assert b'2012-10-06' in rv.data
         rv = self.app.get('/blogs/test1')
         assert b'测试1' in rv.data
         assert b'2010-10-06' in rv.data
-        assert b'2012-10-06' in rv.data
         assert b'This is a test blog content.' in rv.data
         assert b'No comments so far' in rv.data
         rv = self.app.post('/blogs/test1', data = dict(

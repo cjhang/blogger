@@ -15,7 +15,7 @@ import codecs
 from datetime import date
 import markdown
 from flask import Flask, request, g, redirect, url_for, render_template,\
-    flash, send_file, send_from_directory
+    flash, send_from_directory
 
 # create the application
 app = Flask(__name__)
@@ -126,7 +126,7 @@ def updatedb_command():
 @app.route('/')
 def show_updates():
     blogs=query_db('''
-        select name, title_zh, revise, abstract from blogs 
+        select name, title_zh, author, revise, tags, abstract from blogs 
         where release != "" order by revise desc limit 30''')
     return render_template('update.html', blogs=blogs)
 
@@ -134,8 +134,8 @@ def show_updates():
 def show_article(blogname):
     if request.method == 'GET':
         article = query_db('''
-            select title_zh, release, revise, toc, content from blogs
-            where name = ?''', [blogname])
+            select title_zh, author, release, revise, toc, content 
+            from blogs where name = ?''', [blogname])
         comments = query_db('''
             select user_name, comment_date, comment_detail from comments
             where blog_name = ?''', [blogname])
@@ -145,9 +145,10 @@ def show_article(blogname):
         comment_date = date.today().isoformat()
         query_db('''
                 insert into comments(blog_name, user_name, comment_date, 
-                comment_detail) values(?, ?, ?, ?)''', 
+                contact_detail ,comment_detail) values(?, ?, ?, ?, ?)''', 
                 [blogname, request.form['user_name'], comment_date, 
-                 request.form['comment_detail']], method = 'w')
+                request.form['contact_detail'], 
+                request.form['comment_detail']], method = 'w')
         flash("Comments was successfully posted")
         return redirect(url_for('show_article', blogname = blogname))
     else:
@@ -170,13 +171,12 @@ def add_blog():
         content = md.convert(request.form['content'])
         toc = md.toc
         query_db('''insert into blogs (name, title_zh, author, release, 
-                revise, tags, abstract, toc, content) 
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                tags, abstract, toc, content) 
+                values (?, ?, ?, ?, ?, ?, ?, ?)''',
                 [request.form['name'], request.form['title_zh'], 
                  request.form['author'], request.form['release'], 
-                 request.form['revise'], request.form['tags'],
-                 request.form['abstract'], toc, content], 
-                method='w')
+                 request.form['tags'], request.form['abstract'], 
+                 toc, content], method='w')
         flash('Blog was successfully posted')
         return redirect(url_for('show_updates'))
     return render_template('add.html')

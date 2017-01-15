@@ -1,9 +1,53 @@
-<!doctype html>
-<title>Blogger</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<div class=page>
-{% for message in get_flashed_messages() %}
-<div class=flash>{{ message }}</div>
-{% endfor %}
+{% extends "head.html" %}
+{% block layout %}
+
+{% block navbar %}
+<div class="container">
+  <nav class="nav">
+    <div class="nav-left">
+      <a class="nav-item" href="https://cjhang.github.io">cjhang</a>
+    </div>
+    <span id="nav-toggle" class="nav-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <div id="nav-menu" class="nav-right nav-menu">
+      <a class="nav-item" href="/">Update</a>
+      <a class="nav-item" href="#">Blogs</a>
+      <a class="nav-item" href="/about">About</a>
+    </div>
+  </nav>  
+</div>
+{% endblock %}
+
+<div class="container">
+  {% block flash %}
+  <div class=page>
+    {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endblock %}
+</div>
+
+<div class="container">
 {% block body %}{% endblock %}
 </div>
+
+{% block footnotes %}
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        &copy; <a href="https://github.com/cjhang">cjhang</a> copyright 2017
+      </p>
+      <p>
+        This website based on <a><strong>Blogger</strong></a> by cjhang is licenced MIT
+      </p>
+    </div>
+  </div>
+</footer>
+{% endblock %}
+
+{% endblock %}
